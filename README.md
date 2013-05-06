@@ -20,7 +20,7 @@
 		
 		@Post
 		//deal with the POST request to '/some/test?a=_&bb=__'
-		protected void test(A a, BB bb){
+		public void test(A a, BB bb){
 			SomeForm form = form(SomeForm.class)...
 			String name = session("name");
 			session("key", "value");
