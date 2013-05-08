@@ -1,4 +1,4 @@
-package org.thoughtworks.mvc;
+package org.thoughtworks.orc.internal;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,16 +14,17 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class InterceptServletTest {
-
-    private InterceptServlet interceptServlet;
+public class RootServletTest {
+    private RootServlet rootServlet;
     private HttpServletRequest mockRequest;
     private HttpServletResponse mockResponse;
     private Enumeration parameterNames;
-    private HashMap<String,String[]> paramsMap = new HashMap<>();
+    private HashMap<String, String[]> paramsMap = new HashMap<>();
 
     @Before
     public void setUp() throws Exception {
+
+        rootServlet = new RootServlet();
 
         Vector vector = new Vector();
         vector.add("text");
@@ -42,7 +43,6 @@ public class InterceptServletTest {
         paramsMap.put("radio", paramValuesRadio);
         paramsMap.put("dropdowm", paramValuesDropdown);
 
-        interceptServlet = new InterceptServlet();
         mockRequest = mock(HttpServletRequest.class);
         when(mockRequest.getParameterNames()).thenReturn(parameterNames);
         when(mockRequest.getParameterValues("text")).thenReturn(paramValuesText);
@@ -55,16 +55,16 @@ public class InterceptServletTest {
     @Test
     public void testFillingDataIntoFormWhenMethodIsGet() throws Exception {
 
-        interceptServlet.doGet(mockRequest, mockResponse);
+        rootServlet.doGet(mockRequest, mockResponse);
 
-        assertThat(interceptServlet.getParamsMap(), equalTo(paramsMap));
+        assertThat(rootServlet.getParamsMap(), equalTo(paramsMap));
     }
 
     @Test
     public void testFillingDataIntoFormWhenMethodIsPost() throws Exception {
 
-        interceptServlet.doPost(mockRequest, mockResponse);
+        rootServlet.doPost(mockRequest, mockResponse);
 
-        assertThat(interceptServlet.getParamsMap(), equalTo(paramsMap));
+        assertThat(rootServlet.getParamsMap(), equalTo(paramsMap));
     }
 }
