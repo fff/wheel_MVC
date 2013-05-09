@@ -1,4 +1,4 @@
-package org.thoughtworks.orc.internal.annotations;
+package org.thoughtworks.orc.annotations;
 
 import java.lang.annotation.*;
 

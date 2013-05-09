@@ -1,13 +1,22 @@
-package org.thoughtworks.orc.internal;
+package org.thoughtworks.orc.internal.util;
 
+
+import com.google.inject.Singleton;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class Form {
+@Singleton
+public class FormPicker {
 
     public <T> T pickupObject(HttpServletRequest request, Class<T> tClass) {
-        //TODO
-        return null;
+        try {
+            final T obj = tClass.newInstance();
+            //TODO fill obj
+            return obj;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("pickObject fail", e);
+        }
     }
 
     public String pickupSingle(HttpServletRequest request, String name) {

@@ -1,4 +1,4 @@
-package org.thoughtworks.orc.internal;
+package org.thoughtworks.orc.internal.util;
 
 import java.io.Serializable;
 import java.util.HashMap;
