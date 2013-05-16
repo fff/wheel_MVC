@@ -56,5 +56,4 @@ public class ViewFinder {
         return names.action + "." + templateFileSuffix;
     }
 
-
 }

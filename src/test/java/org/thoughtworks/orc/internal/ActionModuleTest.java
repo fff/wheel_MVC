@@ -1,7 +1,5 @@
 package org.thoughtworks.orc.internal;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -14,9 +12,9 @@ public class ActionModuleTest {
         Assert.assertEquals("org/thoughtworks/orc/test/routes", path);
     }
 
-    @Test
-    public void test_initial() throws Exception {
-        final Injector injector = Guice.createInjector(new ActionModule("org.thoughtworks.orc.test.routes"));
-        Assert.assertNotNull(injector);
-    }
+//    @Test
+//    public void test_initial() throws Exception {
+//        final Injector injector = Guice.createInjector(new ActionModule("org.thoughtworks.orc.test.routes"));
+//        Assert.assertNotNull(injector);
+//    }
 }

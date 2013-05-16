@@ -8,7 +8,6 @@ public class ViewModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(ViewFinder.class);
-        bind(ViewRender.class).to(SimpleViewRender.class);
-        bind(View.class);
+        bind(ViewRender.class).to(MustacheRender.class);
     }
 }

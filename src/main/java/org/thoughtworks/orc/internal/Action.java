@@ -10,14 +10,14 @@ import org.thoughtworks.orc.internal.util.NamePair;
 import java.util.Map;
 
 public class Action {
-    private View view;
+    private ViewRender viewRender;
     private Map<String, Class<? extends OrcController>> routeClazzList;
     private Injector injector;
 
     @Inject
-    public Action(Injector injector, View view,
+    public Action(Injector injector, ViewRender viewRender,
                   @Named(Constants.ROUTE_CLAZZ_LIST) Map<String, Class<? extends OrcController>> routeClazzList, @Named("test") String test) {
-        this.view = view;
+        this.viewRender = viewRender;
         this.routeClazzList = routeClazzList;
         this.injector = injector;
     }
@@ -26,7 +26,7 @@ public class Action {
         try {
             ActualOrcController controller = injector.getInstance(routeClazzList.get(names.route));
             controller.getClass().getDeclaredMethod(names.action).invoke(controller);
-            controller.writeResp(this.view.render(controller.model, names));
+            controller.writeResp(this.viewRender.render(names, controller.model));
         } catch (Exception e) {
             throw new RuntimeException("action execute fail", e);
         }

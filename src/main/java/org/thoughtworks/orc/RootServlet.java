@@ -2,6 +2,7 @@ package org.thoughtworks.orc;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Module;
 import org.thoughtworks.orc.internal.ActionModule;
 import org.thoughtworks.orc.internal.ViewModule;
 import org.thoughtworks.orc.internal.util.HttpContext;
@@ -20,7 +21,16 @@ public class RootServlet extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        injector = Guice.createInjector(new Application(config.getInitParameter("viewDirPath"), "mst"), new ActionModule(config.getInitParameter("controllerPackageName")), new ViewModule());
+        try {
+            injector = Guice.createInjector(new Application(config.getInitParameter("viewDirFullPath"), "mst"), new ActionModule(config.getInitParameter("controllerPackageName")), new ViewModule());
+            final String userModuleClass = config.getInitParameter("userModuleClassName");
+            if (userModuleClass != null) {
+                injector = injector.createChildInjector((Module) Class.forName(userModuleClass).newInstance());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("initial failed.", e);
+        }
     }
 
     @Override

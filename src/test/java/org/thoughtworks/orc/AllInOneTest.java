@@ -2,6 +2,8 @@ package org.thoughtworks.orc;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import org.junit.Before;
 import org.junit.Test;
 import org.thoughtworks.orc.internal.Action;
@@ -15,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -30,7 +34,7 @@ public class AllInOneTest {
     @Before
     public void setUp() throws Exception {
         injector = Guice.createInjector(new Application("/Users/twer/w3/wheel/wheel_MVC/src/test/resources/views/", "mst"),
-                new ActionModule("org.thoughtworks.orc.test.routes"), new ViewModule());
+                new ViewModule(), new ActionModule("org.thoughtworks.orc.test.routes"));
         request = mock(HttpServletRequest.class);
         response = mock(HttpServletResponse.class);
         session = mock(HttpSession.class);
@@ -54,6 +58,15 @@ public class AllInOneTest {
     public void test_view_finder() throws Exception {
         final Action action = injector.getInstance(Action.class);
         action.execute(new NamePair("some", "test"));
-        verify(writer, times(1)).print("{{hello}};hello,Hello world!");
+        verify(writer, times(1)).print("Hello world!");
+    }
+
+    @Test
+    public void test_mustache() throws Exception {
+        String text = "{{three}}";
+        Template tmpl = Mustache.compiler().compile(text);
+        Map<String, String> data = new HashMap<String, String>();
+        data.put("three", "five");
+        assertEquals(tmpl.execute(data), "five");
     }
 }

@@ -1,5 +1,7 @@
 package org.thoughtworks.orc.internal.util;
 
+import com.google.common.collect.ImmutableMap;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -33,6 +35,10 @@ public class Model {
 
     public Set<String> keys() {
         return vars.keySet();
+    }
+
+    public Map<String, ?> asMap() {
+        return ImmutableMap.copyOf(this.vars);
     }
 
 }
