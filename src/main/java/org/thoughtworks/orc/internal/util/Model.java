@@ -1,10 +1,10 @@
 package org.thoughtworks.orc.internal.util;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-public class Model implements Serializable {
+public class Model {
     private Map<String, Object> vars = new HashMap<>();
 
     public Object put(String key, Object value) {
@@ -30,4 +30,9 @@ public class Model implements Serializable {
     public void clear() {
         vars.clear();
     }
+
+    public Set<String> keys() {
+        return vars.keySet();
+    }
+
 }

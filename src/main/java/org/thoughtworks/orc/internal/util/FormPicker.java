@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 @Singleton
 public class FormPicker {
 
-    public <T> T pickupObject(HttpServletRequest request, Class<T> tClass) {
+    public static <T> T pickupObject(HttpServletRequest request, Class<T> tClass) {
         try {
             final T obj = tClass.newInstance();
             //TODO fill obj
@@ -19,11 +19,11 @@ public class FormPicker {
         }
     }
 
-    public String pickupSingle(HttpServletRequest request, String name) {
+    public static String pickupSingle(HttpServletRequest request, String name) {
         return request.getParameter(name);
     }
 
-    public String[] pickupSet(HttpServletRequest request, String name) {
+    public static String[] pickupSet(HttpServletRequest request, String name) {
         return request.getParameterValues(name);
     }
 }

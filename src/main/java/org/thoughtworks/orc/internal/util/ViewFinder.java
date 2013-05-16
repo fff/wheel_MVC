@@ -6,7 +6,7 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import org.thoughtworks.orc.internal.Constants;
 
-import java.io.File;
+import java.io.*;
 import java.util.Map;
 
 @Singleton
@@ -14,7 +14,7 @@ public class ViewFinder {
 
     private final String templateDirPath;
     private final String templateFileSuffix;
-    private final Map<String, String> templateFileCache = Maps.newHashMap();
+    private final Map<NamePair, String> templateFileCache = Maps.newHashMap();
 
     @Inject
     public ViewFinder(@Named(Constants.VIEW_DIR_PATH) String templateDirPath,
@@ -25,23 +25,31 @@ public class ViewFinder {
 
     public String readTemplate(NamePair names) {
         if (!templateFileCache.containsKey(names)) {
-            final File templateFile = findTemplateFile(names);
-            //TODO read template file to cache
+            this.templateFileCache.put(names, read2String(names));
         }
         return templateFileCache.get(names);
     }
 
-    private File findTemplateFile(NamePair names) {
-        final File routeDir = new File(templateDirPath + names.route);
-        if (!(routeDir.exists() && routeDir.isDirectory())) {
-            throw new RuntimeException("no existed for route:" + names);
+    private String read2String(NamePair names) {
+        final String filename = templateDirPath + names.route + "/" + templateFileName(names);
+        try {
+            final FileInputStream fi = new FileInputStream(new File(filename));
+            final InputStreamReader in = new InputStreamReader(fi);
+            final BufferedReader reader = new BufferedReader(in);
+            String line = reader.readLine();
+            StringBuilder content = new StringBuilder();
+            while (line != null) {
+                content.append(line);
+                line = reader.readLine();
+            }
+            fi.close();
+            in.close();
+            reader.close();
+            return content.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("fail to read:" + filename);
         }
-        final String templateFileName = templateFileName(names);
-        final File templateFile = new File(routeDir, templateFileName);
-        if (!templateFile.exists()) {
-            throw new RuntimeException("no template file exist:/" + names.route + "/" + templateFileName);
-        }
-        return templateFile;
     }
 
     private String templateFileName(NamePair names) {
