@@ -1,16 +1,18 @@
 package org.thoughtworks.orc.test.model;
 
+import java.util.List;
+
 public class Student {
-    private String name;
     private Integer age;
     private Grade grade;
+    private List<Book> books;
 
-    public String getName() {
-        return name;
+    public List<Book> getBooks() {
+        return books;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 
     public Integer getAge() {
