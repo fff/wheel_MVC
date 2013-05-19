@@ -1,7 +1,7 @@
 package org.thoughtworks.orc.internal.util;
 
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.thoughtworks.orc.test.model.Book;
 import org.thoughtworks.orc.test.model.Student;
 
@@ -18,7 +18,7 @@ public class FormPickerTest {
     Map<String, String[]> form;
     HttpServletRequest request;
 
-    @BeforeMethod
+    @Before
     public void setUp() throws Exception {
         form = newHashMap();
         request = mock(HttpServletRequest.class);

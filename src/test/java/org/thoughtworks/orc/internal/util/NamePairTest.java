@@ -1,7 +1,7 @@
 package org.thoughtworks.orc.internal.util;
 
 import junit.framework.Assert;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 public class NamePairTest {
     @Test
@@ -14,7 +14,7 @@ public class NamePairTest {
         assertPair("/some/test/with/more", "some", "test");
     }
 
-    @Test(expectedExceptions = RuntimeException.class)
+    @Test(expected = RuntimeException.class)
     public void test_url_not_start_with_slash() throws Exception {
         assertPair("some/test", "some", "test");
     }

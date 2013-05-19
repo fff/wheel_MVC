@@ -17,16 +17,19 @@
 
 	@route("/some")
 	class SomeController extends Controller{
-		
+
 		@Post
-		//deal with the POST request to '/some/test?a=_&bb=__'
+		//deal with the POST request to '/some/test'
 		public void test(A a, BB bb){
-			SomeForm parameterForm = parameterForm(SomeForm.class)...
+			Student student = form(Student.class);
 			String name = session("name");
-			session("key", "value");
+			if(!name.equals(student.getName())){
+			    throw new NoPermissionException(name);
+			}
+			session("lastLogin", now());
 			flash("result", "success");
 			model("one","1");
-			//will render with /some/test.html.mst and model
+			model("student",student)
 		}
-	}	
+	}
 

@@ -56,7 +56,8 @@ public class FormPicker {
             case "java.lang.Double":
                 return value == null ? null : Double.parseDouble(value);
             case "java.util.List":
-                return createList(getGenericType(oClass, fullName), values, fullName);
+                final List<?> result = createList(getGenericType(oClass, fullName), values, fullName);
+                return result.size() > 0 ? result : null;
             default:
                 return createObj(pClass, values, fullName);
         }
