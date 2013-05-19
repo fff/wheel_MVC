@@ -1,24 +1,24 @@
-apply plugin: 'idea'
-apply plugin: 'java'
+allprojects {
+    apply plugin: 'idea'
 
-repositories {
-    mavenCentral()
+    apply plugin: 'java'
+    sourceCompatibility  = 1.8
+    version = '1.0-SNAPSHOT'
+
+    repositories {
+        mavenCentral()
+    }
 }
 
-dependencies {
-    compile "com.google.guava:guava:14.0.1",
-            'org.mortbay.jetty:servlet-api:3.0.20100224',
-            'com.samskivert:jmustache:1.8',
-            'com.jolira:guice:3.0.0',
-            'org.sonatype.sisu.inject:guice-servlet:3.1.4'
+subprojects {
+    dependencies {
+        compile "com.google.guava:guava:14.0.1",
+                "com.jolira:guice:3.0.0"
 
-    testCompile "junit:junit:4.10",
-            "org.mockito:mockito-all:1.9.5",
-            "org.hamcrest:hamcrest-all:1.3"
+        testCompile "junit:junit:4.10",
+                "org.mockito:mockito-all:1.9.5",
+                "org.hamcrest:hamcrest-all:1.3"
+    }
 }
 
-task "create-dirs" << {
-    sourceSets*.java.srcDirs*.each { it.mkdirs() }
-    sourceSets*.resources.srcDirs*.each { it.mkdirs() }
-}
 

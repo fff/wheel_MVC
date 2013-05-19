@@ -1,0 +1,5 @@
+Student:
+- name:{{student.name}}
+- age:{{student.age}}
+- grade:
+ - number:{{grade.number}}

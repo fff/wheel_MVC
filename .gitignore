@@ -1,7 +1,8 @@
-.idea
+.*
 out
 build
-.gradle
-*.ipr
+.idea
 *.iml
 *.iws
+*.ipr
+wheel_IoC

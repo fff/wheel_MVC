@@ -1,0 +1,7 @@
+dependencies {
+    compile 'org.mortbay.jetty:servlet-api:3.0.20100224',
+            'com.samskivert:jmustache:1.8',
+            'org.eclipse.jetty:example-jetty-embedded:9.0.3.v20130506'
+}
+
+
