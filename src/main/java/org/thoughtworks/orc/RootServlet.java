@@ -22,7 +22,9 @@ public class RootServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         try {
-            injector = Guice.createInjector(new Application(config.getInitParameter("viewDirFullPath"), "mst"), new ActionModule(config.getInitParameter("controllerPackageName")), new ViewModule());
+            final String controllerPackageName = config.getInitParameter("controllerPackageName");
+            injector = Guice.createInjector(new Application(getViewDirRelativePath(config), "mst"),
+                    new ActionModule(controllerPackageName), new ViewModule());
             final String userModuleClass = config.getInitParameter("userModuleClassName");
             if (userModuleClass != null) {
                 injector = injector.createChildInjector((Module) Class.forName(userModuleClass).newInstance());
@@ -33,10 +35,19 @@ public class RootServlet extends HttpServlet {
         }
     }
 
+    private String getConfig(ServletConfig config, String name, String defaultValue) {
+        return config.getInitParameter(name) == null ? defaultValue : config.getInitParameter(name);
+    }
+
+    private String getViewDirRelativePath(ServletConfig config) {
+        final String viewDirRelativePath = getConfig(config, "viewDirRelativePath", "views");
+        return config.getServletContext().getRealPath("/WEB-INF") + "/" + viewDirRelativePath + "/";
+    }
+
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpContext.current.set(new HttpContext(req, resp, req.getSession(true)));
-        injector.getInstance(org.thoughtworks.orc.internal.Action.class).execute(NamePair.parseUrl(req.getRequestURL().toString()));
+        injector.getInstance(org.thoughtworks.orc.internal.Action.class).execute(NamePair.parseUrl(req.getRequestURI().toString()));
     }
 
 
